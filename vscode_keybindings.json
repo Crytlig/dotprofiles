@@ -1,9 +1,8 @@
-// Place your key bindings in this file to override the defaultsauto[]
 [
     {
         "key": "ctrl+alt+oem_period",
-        "command": "editor.action.copyLinesDownAction",
-        "when": "editorTextFocus && !editorReadonly"
+        "command": "cursorWordEndRight",
+        "when": "textInputFocus && !accessibilityModeEnabled"
     },
     {
         "key": "shift+alt+down",
@@ -12,8 +11,8 @@
     },
     {
         "key": "ctrl+alt+oem_comma",
-        "command": "editor.action.copyLinesUpAction",
-        "when": "editorTextFocus && !editorReadonly"
+        "command": "cursorWordEndLeft",
+        "when": "textInputFocus && !accessibilityModeEnabled"
     },
     {
         "key": "shift+alt+up",
