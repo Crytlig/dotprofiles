@@ -1,0 +1,13 @@
+brave(){
+  local brave="brave-browser"
+  if [[ ${#*} -gt 1 ]]; then
+    echo "$: too many arguments" >&2
+  elif [[ ${#*} -gt 0 ]]; then
+    $brave "$1" 2>/dev/null
+  else
+    $brave 2>/dev/null
+  fi
+}
+
+
+
