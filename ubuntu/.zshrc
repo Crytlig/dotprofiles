@@ -19,6 +19,7 @@ autoload -Uz compinit
 compinit
 
 eval "$(starship init zsh)"
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 source $ZSH/zsh-plugins/custom/zsh-autosuggestions/zsh-autosuggestions.zsh
 source $ZSH/zsh-plugins/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -27,7 +28,7 @@ source $ZSH/zsh-plugins/custom/zsh-syntax-highlighting/zsh-syntax-highlighting.z
 # For a full list of active aliases, run `alias`.
 
 # aliases
-alias zshconfig="nvim ~/.zshrc"
+alias zshconfig="nvim ~/repos/dotprofiles/ubuntu/.zshrc"
 alias tf=terraform
 alias cat=batcat
 alias nv=nvim
@@ -52,8 +53,10 @@ fi
 fpath=( ~/.zshfn "${fpath[@]}" )
 autoload -Uz $fpath[1]/*(.:t)
 
-
+# Other exports
 export EDITOR=nvim
+export PATH=$PATH:/usr/local/go/bin
+export PATH=$PATH:/home/$USER/go/bin/
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
