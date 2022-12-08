@@ -1,6 +1,7 @@
 if (( $+commands[kubectl] )); then
   # If the completion file does not exist, generate it and then source it
   # Otherwise, source it and regenerate in the background
+  echo $ZSH_CACHE_DIR
   if [[ ! -f "$ZSH_CACHE_DIR/completions/_kubectl" ]]; then
     kubectl completion zsh | tee "$ZSH_CACHE_DIR/completions/_kubectl" >/dev/null
     source "$ZSH_CACHE_DIR/completions/_kubectl"
