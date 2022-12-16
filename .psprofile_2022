@@ -5,8 +5,7 @@ Import-Module PSKubectlCompletion
 
 Set-Location C:/
 
-$env:POSH_THEMES_PATH = "C:\Users\clry\posh_themes"
-
+$env:POSH_THEMES_PATH = "~/posh_themes"
 
 oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\craver.omp.json" | Invoke-Expression
 
@@ -19,7 +18,6 @@ Set-PSReadLineOption -PredictionSource History
 Set-PSReadlineKeyHandler -Key "Ctrl+g" -Function AcceptSuggestion
 Set-PSReadLineKeyHandler -Key UpArrow -Function HistorySearchBackward
 Set-PSReadLineKeyHandler -Key "Ctrl+f" -Function ForwardWord
-
 
 Set-PSReadLineOption -PredictionSource History
 Set-PSReadLineOption -HistorySearchCursorMovesToEnd
@@ -41,12 +39,27 @@ Set-Alias -Name ktx -value kubectx -Option AllScope
 Set-Alias -Name kns -value kubens -Option AllScope
 Set-Alias -Name ictl -value istioctl -Option AllScope
 
+# Navigation
+function backdir() {
+  Set-Location ..
+}
+
+Set-Alias -Name ".." -Value backdir -Option AllScope
+
+# Set clipboard to current dir
+function scpwd() {
+  Set-Clipboard $pwd
+}
+
 # Kubenetes completion
 Register-KubectlCompletion
 
 ### IDA specific
 Import-Module C:\Projects\ICP-SOA-Platform\soa-module\SoaModule\SoaModule.psm1 -Force
 
+function helmls() {
+  helm ls -o json | ConvertFrom-Json | % name
+}
 
 ## Completions
 
@@ -59,107 +72,7 @@ catch {
   ;
 }
 
-
-$env:ICP_SOA_PLATFORM = 'C:\Projects\ICP-SOA-Platform'
-$env:ICP_MESSAGING = 'C:\Projects\ICP-Messaging'
-$env:ICP_STORAGE = 'C:\Projects\ICP-Storage'
-
-$env:SOA_PROFILE_DIR = "$env:ICP_SOA_PLATFORM\soa-ps-profile"
-
-$env:EDITOR = 'code --wait'
-$env:KUBE_EDITOR = 'code --wait'
-$env:SOA_MODULE = "$env:ICP_SOA_PLATFORM\soa-module\SoaModule\SoaModule.psm1"
-
-$env:KUBECONFIG = "$ENV:USERPROFILE\.kube\config"
-
-# Functions and aliases
-function Set-LocationIcpSoaPlatform {
-  Set-Location $env:ICP_SOA_PLATFORM
-}
-
-function Set-LocationIcpMessaging {
-  Set-Location $env:ICP_MESSAGING
-}
-
-function Set-LocationIcpStorage {
-  Set-Location $env:ICP_STORAGE
-}
-
-function Set-LocationProjects {
-  Set-Location ($env:ICP_MESSAGING | Split-Path -Parent)
-}
-
-Set-Alias -Name soa -Value Set-LocationIcpSoaPlatform
-Set-Alias -Name msg -Value Set-LocationIcpMessaging
-Set-Alias -Name stor -Value Set-LocationIcpStorage
-Set-Alias -Name proj -Value Set-LocationProjects
-
-
-## PSReadLine smart quotations
-###
-### From PSReadLine sample profile
-###
-
-# https://github.com/PowerShell/PSReadLine/blob/master/PSReadLine/SamplePSReadLineProfile.ps1
-# Smart insertion and deletion (backspace) of quotes, parens, square and curly brackets
-# Save in history, parenthesize selection, expand aliases, cycle through quotes
-
 ### SMART INSERTION AND DELETION
-
-
-$Arguments = @{
-  Chord            = '(', '{', '['
-  BriefDescription = 'InsertPairedBraces'
-  Description      = 'Insert matching braces'
-}
-Set-PSReadLineKeyHandler @Arguments -ScriptBlock {
-  param($key, $arg)
-
-  $closeChar = switch ($key.KeyChar) {
-    <#case#> '(' { [char]')'; break }
-    <#case#> '{' { [char]'}'; break }
-    <#case#> '[' { [char]']'; break }
-  }
-
-  $selectionStart = $null
-  $selectionLength = $null
-  [Microsoft.PowerShell.PSConsoleReadLine]::GetSelectionState([ref]$selectionStart, [ref]$selectionLength)
-
-  $line = $null
-  $cursor = $null
-  [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-
-  if ($selectionStart -ne -1) {
-    # Text is selected, wrap it in brackets
-    [Microsoft.PowerShell.PSConsoleReadLine]::Replace($selectionStart, $selectionLength, $key.KeyChar + $line.SubString($selectionStart, $selectionLength) + $closeChar)
-    [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($selectionStart + $selectionLength + 2)
-  }
-  else {
-    # No text is selected, insert a pair
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("$($key.KeyChar)$closeChar")
-    [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-  }
-}
-
-$Arguments = @{
-  Chord            = ')', ']', '}'
-  BriefDescription = 'SmartCloseBraces'
-  Description      = 'Insert closing brace or skip'
-}
-Set-PSReadLineKeyHandler @Arguments -ScriptBlock {
-  param($key, $arg)
-
-  $line = $null
-  $cursor = $null
-  [Microsoft.PowerShell.PSConsoleReadLine]::GetBufferState([ref]$line, [ref]$cursor)
-
-  if ($line[$cursor] -eq $key.KeyChar) {
-    [Microsoft.PowerShell.PSConsoleReadLine]::SetCursorPosition($cursor + 1)
-  }
-  else {
-    [Microsoft.PowerShell.PSConsoleReadLine]::Insert("$($key.KeyChar)")
-  }
-}
 
 $Arguments = @{
   Chord            = 'Backspace'
