@@ -10,9 +10,7 @@ arch = ENV["ARCH"]
 version = ENV["VERSION"]
 
 Vagrant.configure("2") do |config|
-  # config.vm.box = "nixos-22.05-virtualbox-iso" + arch.to_s
-  config.vm.box = "nixos-" + version.to_s + "-virtualbox-iso.virtualbox-" + arch.to_s + ".box"
-  # config.disksize.size = '50GB'
+  config.vm.box = "nixos-" + version.to_s + "-virtualbox-iso.virtualbox-03-01" + arch.to_s + ".box"
   config.vm.provider "virtualbox" do |vb|
     vb.gui = true
     vb.memory = "4096"
