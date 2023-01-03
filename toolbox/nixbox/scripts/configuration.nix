@@ -39,7 +39,6 @@
     netcat
     nfs-utils
     rsync
-    git
   ];
 
   users.users.root = { password = "vagrant"; };
