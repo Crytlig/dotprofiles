@@ -30,6 +30,15 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
+  ## LOCALE
+
+  i18n.extraLocaleSettings = {
+    LC_ALL = "en_US.UTF8";
+    LANG = "en_US.UTF8";
+    LC_MESSAGES = "en_US.UTF-8";
+    LC_TIME = "en_DK.UTF-8";
+  };
+
   # Enable DBus
   services.dbus.enable    = true;
 
@@ -47,6 +56,7 @@
     nfs-utils
     rsync
     vim
+    git
   ];
 
   users.users.root = { password = "vagrant"; };
