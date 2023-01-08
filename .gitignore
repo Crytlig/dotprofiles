@@ -1,7 +1,7 @@
-toolbox/nixbox/.DS_Store
-toolbox/nixbox/*.box
-toolbox/nixbox/.vagrant
-toolbox/nixbox/iso
-toolbox/nixbox/output-virtualbox-iso
-toolbox/nixbox/packer_cache
-toolbox/nixbox/vendor
+nixbox/.DS_Store
+nixbox/*.box
+nixbox/.vagrant
+nixbox/iso
+nixbox/output-virtualbox-iso
+nixbox/packer_cache
+nixbox/vendor
