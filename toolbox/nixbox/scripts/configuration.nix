@@ -7,6 +7,7 @@
       ./hardware-builder.nix
       ./vagrant.nix
       ./custom-configuration.nix
+      ./plasma5.nix
     ];
 
   # Use the GRUB 2 boot loader.
@@ -22,13 +23,6 @@
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Enable the Plasma 5 Desktop Environment.
-  services.xserver.displayManager.sddm.enable = true;
-  services.xserver.desktopManager.plasma5.enable = true;
 
   # Enable DBus
   services.dbus.enable    = true;
@@ -46,7 +40,6 @@
     netcat
     nfs-utils
     rsync
-    vim
   ];
 
   users.users.root = { password = "vagrant"; };
@@ -62,6 +55,7 @@
     extraGroups     = [ "users" "wheel" ];
     password        = "vagrant";
     home            = "/home/vagrant";
+    shell           = pkgs.zsh;
     createHome      = true;
     useDefaultShell = true;
     openssh.authorizedKeys.keys = [
