@@ -29,8 +29,7 @@ curl -sf "$packer_http/vagrant-hostname.nix" > /mnt/etc/nixos/vagrant-hostname.n
 curl -sf "$packer_http/vagrant-network.nix" > /mnt/etc/nixos/vagrant-network.nix
 curl -sf "$packer_http/builders/$PACKER_BUILDER_TYPE.nix" > /mnt/etc/nixos/hardware-builder.nix
 curl -sf "$packer_http/custom-configuration.nix" > /mnt/etc/nixos/custom-configuration.nix
-# curl -sf "$packer_http/shell.nix" > /mnt/etc/nixos/shell.nix
-curl -sf "$packer_http/plasma5.nix" > /mnt/etc/nixos/plasma5.nix
+curl -sf "$packer_http/plasma5/plasma5.nix" > /mnt/etc/nixos/plasma5.nix
 curl -sf "$packer_http/configuration.nix" > /mnt/etc/nixos/configuration.nix
 
 

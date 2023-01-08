@@ -1,5 +1,3 @@
-
-
 { config, pkgs, ... }:
 
 {
@@ -17,6 +15,8 @@
     LC_MESSAGES = "en_US.UTF-8";
     LC_TIME = "en_DK.UTF-8";
   };
+
+  time.timeZone = "Europe/Copenhagen";
 
   # Enable zsh
   programs.zsh.enable = true;
@@ -36,8 +36,8 @@
     ];
   };
 
-  # environment.systemPackages = with pkgs; [
-  #   git
-  #   neovim
-  # ];
+  environment.systemPackages = with pkgs; [
+    git
+    neovim
+  ];
 }
