@@ -1,12 +1,24 @@
 { config, pkgs, ... }:
 
 {
-# Enable the X11 windowing system.
+  # Enable the X11 windowing system.
   services.xserver.enable = true;
 
   # Enable the Plasma 5 Desktop Environment.
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
+
+  # Disable a lot of the default applications that are now needed
+  services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
+    elisa
+    gwenview
+    okular
+    oxygen
+    khelpcenter
+    konsole
+    plasma-browser-integration
+    print-manager
+  ];
 
   # locales
   i18n.extraLocaleSettings = {
@@ -21,7 +33,7 @@
   # Enable zsh
   programs.zsh.enable = true;
 
-  # local user
+  # local user. Don't forget to set a password with ‘passwd’.
   users.users.cliff = {
     description     = "Cliff";
     name            = "cliff";
