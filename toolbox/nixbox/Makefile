@@ -21,7 +21,7 @@ version:
 	@echo "Build for ${ARCH} architecture and using the ${VERSION} NixOS iso version with the ${DISTRO} distribution"
 
 build: version nixos.pkr.hcl ## [BUILDER] [ARCH] [VERSION] Build packer image
-  
+
 	@packer build \
 	-var arch=${ARCH} \
 	-var builder="${BUILDER}" \
@@ -39,7 +39,7 @@ vagrant-plugin:
 	@vagrant plugin list | grep vagrant-nixos-plugin || vagrant plugin install vagrant-nixos-plugin
 
 vagrant-add: vagrant-plugin ## Add vagrant box
-	@test -f nixos-${VERSION}-${BUILDER}-${ARCH}.box && ARCH=${ARCH} vagrant box add --force nixbox-${ARCH} nixos-${VERSION}-${BUILDER}-${ARCH}.box	
+	@test -f nixos-${VERSION}-${BUILDER}-${ARCH}.box && ARCH=${ARCH} vagrant box add --force nixbox-${ARCH} nixos-${VERSION}-${BUILDER}-${ARCH}.box
 
 vagrant-up: ## Try builded vagrant box
 	@ARCH="${ARCH}" VERSION="${VERSION}" vagrant up

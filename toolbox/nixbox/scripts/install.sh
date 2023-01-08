@@ -27,13 +27,11 @@ nixos-generate-config --root /mnt
 curl -sf "$packer_http/vagrant.nix" > /mnt/etc/nixos/vagrant.nix
 curl -sf "$packer_http/vagrant-hostname.nix" > /mnt/etc/nixos/vagrant-hostname.nix
 curl -sf "$packer_http/vagrant-network.nix" > /mnt/etc/nixos/vagrant-network.nix
-# etc
-
 curl -sf "$packer_http/builders/$PACKER_BUILDER_TYPE.nix" > /mnt/etc/nixos/hardware-builder.nix
-curl -sf "$packer_http/configuration.nix" > /mnt/etc/nixos/configuration.nix
 curl -sf "$packer_http/custom-configuration.nix" > /mnt/etc/nixos/custom-configuration.nix
-curl -sf "$packer_http/shell.nix" > /mnt/etc/nixos/custom-configuration.nix
-curl -sf "$packer_http/plasma5.nix" > /mnt/etc/nixos/plasma5.nix
+# curl -sf "$packer_http/shell.nix" > /mnt/etc/nixos/shell.nix
+# curl -sf "$packer_http/plasma5.nix" > /mnt/etc/nixos/plasma5.nix
+curl -sf "$packer_http/configuration.nix" > /mnt/etc/nixos/configuration.nix
 
 
 ### Install ###

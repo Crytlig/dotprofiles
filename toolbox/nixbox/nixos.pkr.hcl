@@ -57,7 +57,7 @@ source "virtualbox-iso" "virtualbox" {
   format               = "ova"
   guest_additions_mode = "disable"
   guest_os_type        = "Linux_64"
-  headless             = true
+  headless             = false
   http_directory       = "scripts"
   iso_checksum         = var.iso_checksum
   iso_url              = local.iso_url
