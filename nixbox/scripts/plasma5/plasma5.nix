@@ -51,6 +51,5 @@
   environment.systemPackages = with pkgs; [
     git
     neovim
-    plasma-theme-switcher
   ];
 }
