@@ -63,7 +63,7 @@ ZSH_THEME="gnzh"
 plugins=(
 	git
 	zsh-autosuggestions
-        docker
+  docker
 	zsh-syntax-highlighting
 	kubectx
 )
