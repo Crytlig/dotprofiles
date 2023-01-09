@@ -6,7 +6,6 @@
       ./hardware-configuration.nix
       ./hardware-builder.nix
       ./vagrant.nix
-      ./custom-configuration.nix
       ./plasma5.nix
     ];
 
