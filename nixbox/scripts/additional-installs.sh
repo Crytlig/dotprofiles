@@ -9,7 +9,7 @@ cp .zshrc ~/.zshrc
 
 # Install tiling manager. Kwin does not automatically active the script
 # Go to System Settings » Shortcuts » Global Shortcuts » KWin and click activate
-git clone https://github.com/Jazqa/kwin-quarter-tiling.git
-plasmapkg2 --type kwinscript -i kwin-quarter-tiling
-mkdir -p ~/.local/share/kservices5
-ln -sf ~/.local/share/kwin/scripts/quarter-tiling/metadata.desktop ~/.local/share/kservices5/kwin-script-quarter-tiling.desktop
+# git clone https://github.com/Jazqa/kwin-quarter-tiling.git
+# plasmapkg2 --type kwinscript -i kwin-quarter-tiling
+# mkdir -p ~/.local/share/kservices5
+# ln -sf ~/.local/share/kwin/scripts/quarter-tiling/metadata.desktop ~/.local/share/kservices5/kwin-script-quarter-tiling.desktop
