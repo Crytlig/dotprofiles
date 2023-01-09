@@ -8,14 +8,13 @@
   services.xserver.displayManager.sddm.enable = true;
   services.xserver.desktopManager.plasma5.enable = true;
 
-  # Disable a lot of the default applications that are now needed
+  # Disable a lot of the default applications that are not needed
   services.xserver.desktopManager.plasma5.excludePackages = with pkgs.libsForQt5; [
     elisa
     gwenview
     okular
     oxygen
     khelpcenter
-    konsole
     plasma-browser-integration
     print-manager
   ];
@@ -40,7 +39,7 @@
     home            = "/home/cliff";
     isNormalUser    = true;
     shell           = pkgs.zsh;
-    password        = "vagrant";
+    initialPassword = "vagrant";
     createHome      = true;
     extraGroups     = ["wheel" "vboxsf" "users"] ;
     openssh.authorizedKeys.keys = [

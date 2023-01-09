@@ -43,11 +43,13 @@
   ];
 
   users.users.root = { password = "vagrant"; };
+
   # Creates a "vagrant" group & user with password-less sudo access
   users.groups.vagrant = {
     name = "vagrant";
     members = [ "vagrant" ];
   };
+  # Add other users in custom
   users.users.vagrant = {
     description     = "Vagrant User";
     name            = "vagrant";

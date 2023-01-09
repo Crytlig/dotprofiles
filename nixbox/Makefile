@@ -2,15 +2,8 @@ BUILDER ?= virtualbox-iso.virtualbox
 VERSION ?= 22.11
 ARCH ?= x86_64
 REPO ?= nixos/nixos
+# TODO Fix all naming to be enable building different distros
 DISTRO ?= plasma5
-# plasma5 or gnome for GUI and minimal for no GUI
-# TODO fix configuration.nix to set the following values to false depending on the distro
-  # Enable the X11 windowing system.
-  # services.xserver.enable = true;
-
-  # Enable the Plasma 5 Desktop Environment.
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
 BOXNAME=nixos-$(VERSION)-$(BUILDER)-$(ARCH).box
 all: help
 
