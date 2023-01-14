@@ -50,5 +50,7 @@
   environment.systemPackages = with pkgs; [
     git
     neovim
+    brave
+    alacritty
   ];
 }
