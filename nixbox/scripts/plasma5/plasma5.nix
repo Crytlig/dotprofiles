@@ -14,7 +14,6 @@
     gwenview
     okular
     oxygen
-    konsole
     khelpcenter
     plasma-browser-integration
     print-manager
