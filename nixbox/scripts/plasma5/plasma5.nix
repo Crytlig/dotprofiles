@@ -52,5 +52,6 @@
     neovim
     brave
     alacritty
+    unzip
   ];
 }
