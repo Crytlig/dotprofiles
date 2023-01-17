@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 PLUGINS_DIR=~/repos/plugins
 mkdir -p ${PLUGINS_DIR}
@@ -11,7 +11,7 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 cp .zshrc ~/.zshrc
 
 # Install tiling manager. Kwin does not automatically active the script
-# Go to System Settings » Shortcuts » Global Shortcuts » KWin and click activate
+# Go to System Settings » Window Management » KWin Scripts » Quarter Tiling » Apply
 KWIN="kwin-quarter-tiling"
 git clone https://github.com/Jazqa/kwin-quarter-tiling.git ${PLUGINS_DIR}/${KWIN}
 cd ${PLUGINS_DIR}/${KWIN}
