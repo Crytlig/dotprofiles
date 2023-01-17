@@ -52,9 +52,6 @@ export EDITOR=nvim
 export PATH=$PATH:/usr/local/go/bin
 export PATH=$PATH:/home/$USER/go/bin/
 
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_CONFIG_HOME=$XDG_CONFIG_HOME:$XDG_CONFIG_HOME/nvim
-
 export DOTNET_ROOT=$HOME/.dotnet
 export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
 
