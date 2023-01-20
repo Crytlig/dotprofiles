@@ -29,6 +29,9 @@ return require('packer').startup(function(use)
 		'rose-pine/neovim',
 		as = 'rose-pine',
 		config = function()
+            require("rose-pine").setup({
+                disable_italics = true,
+            })
 			vim.cmd('colorscheme rose-pine')
 		end
 	})
@@ -46,7 +49,7 @@ return require('packer').startup(function(use)
 			{'williamboman/mason.nvim'},
 			{'williamboman/mason-lspconfig.nvim'},
 
-			-- Autocompletion
+      		-- Autocompletion
 			{'hrsh7th/nvim-cmp'},
 			{'hrsh7th/cmp-buffer'},
 			{'hrsh7th/cmp-path'},
@@ -54,9 +57,9 @@ return require('packer').startup(function(use)
 			{'hrsh7th/cmp-nvim-lsp'},
 			{'hrsh7th/cmp-nvim-lua'},
 
-			-- Snippets
+      		-- Snippets
 			{'L3MON4D3/LuaSnip'},
-			-- Snippet Collection (Optional)
+      		-- Snippet Collection (Optional)
 			{'rafamadriz/friendly-snippets'},
 		}
 	}
@@ -73,5 +76,3 @@ return require('packer').startup(function(use)
     require('packer').sync()
   end
 end)
-
-
