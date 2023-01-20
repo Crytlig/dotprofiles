@@ -47,11 +47,16 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [
+ environment.systemPackages = with pkgs; [
     git
     neovim
     brave
+    vim
     alacritty
+    clang
+    gcc
+    ripgrep
     unzip
   ];
+
 }
