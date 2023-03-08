@@ -1,6 +1,6 @@
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="robbyrussell"
+ZSH_THEME="gnzh"
 
 plugins=(
 	git
@@ -37,6 +37,9 @@ HISTFILE=~/.zsh_history
 complete -F __start_terraform tf
 complete -F __start_kubectl k
 
+
+# Change comment style from dark blue to green
+ZSH_HIGHLIGHT_STYLES[comment]=fg=green,bold
 
 # Make fzf default to ripgrep
 if type rg &> /dev/null; then
