@@ -41,7 +41,8 @@ variable "boot_wait" {
 }
 
 locals {
-  iso_url = "https://channels.nixos.org/nixos-${var.version}/latest-nixos-${var.distro}-${var.arch}-linux.iso"
+  // iso_url = "https://channels.nixos.org/nixos-${var.version}/latest-nixos-${var.distro}-${var.arch}-linux.iso"
+  iso_url = "./nixos-plasma5-22.11.3092.970402e6147-aarch64-linux.iso"
 }
 
 
@@ -54,9 +55,7 @@ source "vmware-iso" "nixbox_fusion" {
   # VM Configs
   headless = false
   // guest_os_type = "other5xlinux-64"
-  guest_os_type = "arm-other-64"
   # guest_additions_mode = "disable"
-  format = "vmx"
   shutdown_command = "sudo shutdown -h now"
   shutdown_timeout = "15m"
   
@@ -66,7 +65,17 @@ source "vmware-iso" "nixbox_fusion" {
   cpus = 2
   memory = var.memory
   network = "nat"
-  network_adapter_type = "e1000e"
+
+  # COPY PASTA TRIAL
+  // guest_os_type = "arm-other-64"
+  // network_adapter_type = "e1000e"
+  // format = "vmx"
+  // disk_adapter_type = "nvme"
+  // usb = "true"
+  // vmx_data = {
+    // "architecture" = "arm64",
+    // "usb_xhci.present" = "true"
+  // }
   
   # VM connections
   ssh_port = 22
