@@ -36,7 +36,9 @@ endif
 # and just set the password of the root user to "root". This will install
 # NixOS. After installing NixOS, you must reboot and set the root password
 # for the next step.
-
+#
+# NOTE(mitchellh): I'm sure there is a way to do this and bootstrap all
+# in one step but when I tried to merge them I got errors. One day.
 vm/bootstrap0:
 	ssh $(SSH_OPTIONS) -p$(NIXPORT) root@$(NIXADDR) " \
 		parted /dev/nvme0n1 -- mklabel gpt; \
@@ -57,8 +59,8 @@ vm/bootstrap0:
 			nix.package = pkgs.nixUnstable;\n \
 			nix.extraOptions = \"experimental-features = nix-command flakes\";\n \
   			services.openssh.enable = true;\n \
-			services.openssh.passwordAuthentication = true;\n \
-			services.openssh.permitRootLogin = \"yes\";\n \
+			services.openssh.settings.PasswordAuthentication = true;\n \
+			services.openssh.settings.PermitRootLogin = \"yes\";\n \
 			users.users.root.initialPassword = \"root\";\n \
 		' /mnt/etc/nixos/configuration.nix; \
 		nixos-install --no-root-passwd; \
@@ -75,17 +77,21 @@ vm/bootstrap:
 		sudo reboot; \
 	"
 
-# $(MAKE) vm/secrets
-
+vm/rootcopy:
+	NIXUSER=root $(MAKE) vm/copy
+	
+vm/rootswitch:
+	NIXUSER=root $(MAKE) vm/switch
+	
 # copy our secrets into the VM
 vm/secrets:
-# 	# GPG keyring
-# 	rsync -av -e 'ssh $(SSH_OPTIONS)' \
-# 		--exclude='.#*' \
-# 		--exclude='S.*' \
-# 		--exclude='*.conf' \
-# 		$(HOME)/.gnupg/ $(NIXUSER)@$(NIXADDR):~/.gnupg
-# 	# SSH keys
+	# GPG keyring
+	# rsync -av -e 'ssh $(SSH_OPTIONS)' \
+	# 	--exclude='.#*' \
+	# 	--exclude='S.*' \
+	# 	--exclude='*.conf' \
+	# 	$(HOME)/.gnupg/ $(NIXUSER)@$(NIXADDR):~/.gnupg
+	# SSH keys
 	rsync -av -e 'ssh $(SSH_OPTIONS)' \
 		--exclude='environment' \
 		$(HOME)/.ssh/ $(NIXUSER)@$(NIXADDR):~/.ssh
@@ -100,15 +106,12 @@ vm/copy:
 		--rsync-path="sudo rsync" \
 		$(MAKEFILE_DIR)/ $(NIXUSER)@$(NIXADDR):/nix-config
 
-euser:
-	@echo $(MAKEFILE_DIR)/ $(NIXUSER)@$(NIXADDR):/nix-config
-
 # run the nixos-rebuild switch command. This does NOT copy files so you
 # have to run vm/copy before.
-# vm/switch:
-# 	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
-# 		sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake \"/nix-config#${NIXNAME}\" \
-# 	"
+vm/switch:
+	ssh $(SSH_OPTIONS) -p$(NIXPORT) $(NIXUSER)@$(NIXADDR) " \
+		sudo NIXPKGS_ALLOW_UNSUPPORTED_SYSTEM=1 nixos-rebuild switch --flake \"/nix-config#${NIXNAME}\" \
+	"
 
 # Build an ISO image
 iso/nixos.iso:
