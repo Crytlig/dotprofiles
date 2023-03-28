@@ -35,15 +35,21 @@ in {
     pkgs.ripgrep
     pkgs.tree
     pkgs.watch
-
     pkgs.gopls
     pkgs.zig
   ] ++ (lib.optionals isLinux [
     pkgs.chromium
     pkgs.firefox
+    pkgs.z-lua
     pkgs.k2pdfopt
     pkgs.rofi
     pkgs.zathura
+    pkgs.gh
+    pkgs.terraform
+    pkgs.azure-cli
+    pkgs.kubectl
+    pkgs.kubectx
+    pkgs.gnumake
   ]);
 
   #---------------------------------------------------------------------
@@ -54,6 +60,7 @@ in {
     LANG = "en_US.UTF-8";
     LC_CTYPE = "en_US.UTF-8";
     LC_ALL = "en_US.UTF-8";
+    LC_TIME = "en_DK.UTF-8";
     EDITOR = "nvim";
     PAGER = "less -FirSwX";
     MANPAGER = "${manpager}/bin/manpager";
@@ -134,10 +141,16 @@ in {
       gco = "git checkout";
       gcp = "git cherry-pick";
       gdiff = "git diff";
-      gl = "git prettylog";
+      gl = "git pull";
+      glo = "git prettylog";
       gp = "git push";
-      gs = "git status";
       gt = "git tag";
+      gst = "git status";
+      gfa = "git fetch --all";
+      k = "kubectl";
+      tf = "terraform";
+      kns = "kubens";
+      ktx = "kubectx";
     } // (if isLinux then {
       # Two decades of using a Mac has made this such a strong memory
       # that I'm just going to keep it consistent.
@@ -203,24 +216,33 @@ in {
       run-shell ${sources.tmux-dracula}/dracula.tmux
     '';
   };
-
-  programs.alacritty = {
+  
+  
+  programs.helix = {
     enable = true;
-
+    languages = [
+      {
+        name = "rust";
+        auto-format = false;
+      }
+    ];
+    
     settings = {
-      env.TERM = "xterm-256color";
-
-      key_bindings = [
-        { key = "K"; mods = "Command"; chars = "ClearHistory"; }
-        { key = "V"; mods = "Command"; action = "Paste"; }
-        { key = "C"; mods = "Command"; action = "Copy"; }
-        { key = "Key0"; mods = "Command"; action = "ResetFontSize"; }
-        { key = "Equals"; mods = "Command"; action = "IncreaseFontSize"; }
-        # { key = "Subtract"; mods = "Command"; action = "DecreaseFontSize"; }
-      ];
+      theme = "onedark";
+      # lsp.display-messages = true;
+      editor = {
+        line-number = "relative";
+        auto-completion = true;
+      };
+      
+      keys.normal = {
+        space.space = "file_picker";
+        space.w = ":w";
+        space.q = ":q";
+      };
     };
   };
-
+  
   programs.kitty = {
     enable = true;
     extraConfig = builtins.readFile ./kitty;
