@@ -12,9 +12,9 @@ map super+c             copy_or_interrupt
 map super+k combine : clear_terminal scroll active : send_text normal,application \x0c
 
 # Miscellaneous
-map super+equal     increase_font_size
-map super+minus     decrease_font_size
-map super+0         restore_font_size
+map super+equal      increase_font_size
+map super+minus    decrease_font_size
+map super+0 restore_font_size
 
 # Scrolling
 map super+shift+g       show_last_command_output
