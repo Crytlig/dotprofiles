@@ -23,6 +23,8 @@ if filereadable(vim_misc_path)
 endif
 
 lua <<EOF
+  
+vim.g.mapleader = "<Space>"
 ---------------------------------------------------------------------
 -- Add our custom treesitter parsers
 local parser_config = require "nvim-treesitter.parsers".get_parser_configs()

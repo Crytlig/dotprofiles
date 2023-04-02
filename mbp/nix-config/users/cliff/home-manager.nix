@@ -1,10 +1,10 @@
-{ config, lib, pkgs, ... }:
+{ nixpkgs,  config, lib, pkgs, ... }:
 
 let
   sources = import ../../nix/sources.nix;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-
+  # extraConfig = (import ./vim-config.nix) { inherit sources; };
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
   manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
@@ -12,13 +12,18 @@ let
     '' else ''
     cat "$1" | col -bx | bat --language man --style plain
   ''));
+  nvchad = pkgs.callPackage ./nvchad/default.nix { };
 in {
   # Home-manager 22.11 requires this be set. We never set it so we have
   # to use the old state version.
   home.stateVersion = "18.09";
 
   xdg.enable = true;
-
+   
+  xdg.configFile.nvim = {
+    source = nvchad;
+    recursive = true; # This is optional
+  };
   #---------------------------------------------------------------------
   # Packages
   #---------------------------------------------------------------------
@@ -26,6 +31,7 @@ in {
   # Packages I always want installed. Most packages I install using
   # per-project flakes sourced with direnv and nix-shell, so this is
   # not a huge list.
+   
   home.packages = [
     pkgs.bat
     pkgs.fd
@@ -50,8 +56,13 @@ in {
     pkgs.kubectl
     pkgs.kubectx
     pkgs.gnumake
+    pkgs.terraform-ls
+    pkgs.lua
+    pkgs.sumneko-lua-language-server
+    pkgs.nodejs-19_x
+    pkgs.vimPlugins.nvim-web-devicons
   ]);
-
+    
   #---------------------------------------------------------------------
   # Env vars and dotfiles
   #---------------------------------------------------------------------
@@ -147,6 +158,7 @@ in {
       gt = "git tag";
       gst = "git status";
       gfa = "git fetch --all";
+      nixconf = "sudo hx /nix-config/users/cliff";
       k = "kubectl";
       tf = "terraform";
       kns = "kubens";
@@ -225,6 +237,13 @@ in {
         name = "rust";
         auto-format = false;
       }
+      {
+        name = "python";
+        auto-format = true;
+        roots = ["pyproject.toml"];
+       # language-server = { command = "pyright-langserver", args = ["--stdio"] }; 
+        config = {}; # <- this is the important line
+      }
     ];
     
     settings = {
@@ -268,39 +287,42 @@ in {
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-nightly;
+    # plugins = with pkgs; [
+    #   customVim.vim-cue
+    #   customVim.vim-fish
+    #   customVim.vim-fugitive
+    #   customVim.vim-glsl
+    #   customVim.vim-misc
+    #   customVim.vim-pgsql
+    #   customVim.vim-tla
+    #   customVim.vim-zig
+    #   customVim.pigeon
+    #   customVim.AfterColors
 
-    plugins = with pkgs; [
-      customVim.vim-cue
-      customVim.vim-fish
-      customVim.vim-fugitive
-      customVim.vim-glsl
-      customVim.vim-misc
-      customVim.vim-pgsql
-      customVim.vim-tla
-      customVim.vim-zig
-      customVim.pigeon
-      customVim.AfterColors
+    #   customVim.vim-nord
+    #   customVim.nvim-comment
+    #   customVim.nvim-lspconfig
+    #   customVim.nvim-plenary # required for telescope
+    #   customVim.nvim-telescope
+    #   customVim.nvim-treesitter
+    #   customVim.nvim-treesitter-playground
+    #   customVim.nvim-treesitter-textobjects
 
-      customVim.vim-nord
-      customVim.nvim-comment
-      customVim.nvim-lspconfig
-      customVim.nvim-plenary # required for telescope
-      customVim.nvim-telescope
-      customVim.nvim-treesitter
-      customVim.nvim-treesitter-playground
-      customVim.nvim-treesitter-textobjects
+    #   vimPlugins.vim-airline
+    #   vimPlugins.vim-airline-themes
+    #   vimPlugins.vim-eunuch
+    #   vimPlugins.vim-gitgutter
 
-      vimPlugins.vim-airline
-      vimPlugins.vim-airline-themes
-      vimPlugins.vim-eunuch
-      vimPlugins.vim-gitgutter
+    #   vimPlugins.nvim-tree-lua
+    #   vimPlugins.vim-markdown
+    #   vimPlugins.vim-nix
+    #   vimPlugins.typescript-vim
 
-      vimPlugins.vim-markdown
-      vimPlugins.vim-nix
-      vimPlugins.typescript-vim
-    ];
+    #   vimPlugins.nerdcommenter
 
-    extraConfig = (import ./vim-config.nix) { inherit sources; };
+    # ];
+
+    # extraConfig = (import ./vim-config.nix) { inherit sources; };
   };
 
   services.gpg-agent = {
