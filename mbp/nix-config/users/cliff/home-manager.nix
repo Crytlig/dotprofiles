@@ -4,7 +4,7 @@ let
   sources = import ../../nix/sources.nix;
   isDarwin = pkgs.stdenv.isDarwin;
   isLinux = pkgs.stdenv.isLinux;
-  # extraConfig = (import ./vim-config.nix) { inherit sources; };
+  extraConfig = (import ./vim-config.nix) { inherit sources; };
   # For our MANPAGER env var
   # https://github.com/sharkdp/bat/issues/1145
   manpager = (pkgs.writeShellScriptBin "manpager" (if isDarwin then ''
@@ -20,10 +20,6 @@ in {
 
   xdg.enable = true;
    
-  xdg.configFile.nvim = {
-    source = nvchad;
-    recursive = true; # This is optional
-  };
   #---------------------------------------------------------------------
   # Packages
   #---------------------------------------------------------------------
@@ -158,7 +154,8 @@ in {
       gt = "git tag";
       gst = "git status";
       gfa = "git fetch --all";
-      nixconf = "sudo hx /nix-config/users/cliff";
+      nixconf = "sudo hx /nix-config/users/cliff/home-manager.nix";
+      conf = "cd ~/.config";
       k = "kubectl";
       tf = "terraform";
       kns = "kubens";
@@ -244,8 +241,18 @@ in {
        # language-server = { command = "pyright-langserver", args = ["--stdio"] }; 
         config = {}; # <- this is the important line
       }
+      {
+        name = "hcl";
+        scope = "source.hcl";
+        injection-regex = "(hcl|tf|nomad)";
+        # file-types = ["hcl", "tf", "nomad"];
+        roots = [];
+        comment-token = "#";
+        # indent = { tab-width = 2, unit = "  " };
+        # language-server = { command = "terraform-ls", args = ["serve"], language-id = "terraform" };
+        auto-format = true;
+       }
     ];
-    
     settings = {
       theme = "onedark";
       # lsp.display-messages = true;
@@ -284,45 +291,51 @@ in {
     };
   };
 
+  # NvChad experiment
+  # xdg.configFile.nvim = {
+  #   source = nvchad;
+  #   recursive = true; # This is optional
+  # };  
+  
   programs.neovim = {
     enable = true;
     package = pkgs.neovim-nightly;
-    # plugins = with pkgs; [
-    #   customVim.vim-cue
-    #   customVim.vim-fish
-    #   customVim.vim-fugitive
-    #   customVim.vim-glsl
-    #   customVim.vim-misc
-    #   customVim.vim-pgsql
-    #   customVim.vim-tla
-    #   customVim.vim-zig
-    #   customVim.pigeon
-    #   customVim.AfterColors
+    plugins = with pkgs; [
+      customVim.vim-cue
+      customVim.vim-fish
+      customVim.vim-fugitive
+      customVim.vim-glsl
+      customVim.vim-misc
+      customVim.vim-pgsql
+      customVim.vim-tla
+      customVim.vim-zig
+      customVim.pigeon
+      customVim.AfterColors
 
-    #   customVim.vim-nord
-    #   customVim.nvim-comment
-    #   customVim.nvim-lspconfig
-    #   customVim.nvim-plenary # required for telescope
-    #   customVim.nvim-telescope
-    #   customVim.nvim-treesitter
-    #   customVim.nvim-treesitter-playground
-    #   customVim.nvim-treesitter-textobjects
+      customVim.vim-nord
+      customVim.nvim-comment
+      customVim.nvim-lspconfig
+      customVim.nvim-plenary # required for telescope
+      customVim.nvim-telescope
+      customVim.nvim-treesitter
+      customVim.nvim-treesitter-playground
+      customVim.nvim-treesitter-textobjects
 
-    #   vimPlugins.vim-airline
-    #   vimPlugins.vim-airline-themes
-    #   vimPlugins.vim-eunuch
-    #   vimPlugins.vim-gitgutter
+      vimPlugins.vim-airline
+      vimPlugins.vim-airline-themes
+      vimPlugins.vim-eunuch
+      vimPlugins.vim-gitgutter
 
-    #   vimPlugins.nvim-tree-lua
-    #   vimPlugins.vim-markdown
-    #   vimPlugins.vim-nix
-    #   vimPlugins.typescript-vim
+      vimPlugins.nvim-tree-lua
+      vimPlugins.vim-markdown
+      vimPlugins.vim-nix
+      vimPlugins.typescript-vim
 
-    #   vimPlugins.nerdcommenter
+      vimPlugins.nerdcommenter
 
-    # ];
+    ];
 
-    # extraConfig = (import ./vim-config.nix) { inherit sources; };
+    extraConfig = (import ./vim-config.nix) { inherit sources; };
   };
 
   services.gpg-agent = {
