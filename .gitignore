@@ -5,3 +5,7 @@ nixbox/iso
 nixbox/output-virtualbox-iso
 nixbox/packer_cache
 nixbox/vendor
+
+.DS_Store
+result
+mbp/iso/nixos.iso
