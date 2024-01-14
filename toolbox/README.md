@@ -1,1 +1,0 @@
-# Docker images to serve as development environments. 
