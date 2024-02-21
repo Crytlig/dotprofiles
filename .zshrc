@@ -3,13 +3,17 @@ export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="gnzh"
 
 plugins=(
-	git
-	docker
-	kubectx
-	kubectl
-	z
-	zsh-syntax-highlighting
-	zsh-autosuggestions
+  git
+  docker
+  kubectx
+  kubectl
+  gh
+  fzf
+  z
+  zsh-syntax-highlighting
+  zsh-autosuggestions
+  zsh-interactive-cd
+  zsh-fzf-history-search
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -53,17 +57,22 @@ complete -F __start_kubectl k
 
 # Change comment style from dark blue to green
 ZSH_HIGHLIGHT_STYLES[comment]=fg=green,bold
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#a8a8a6'
+# Change suggestion highlight style
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#555555'
 
 # Other exports
 export EDITOR=nvim
 export PATH=$PATH:/usr/local/go/bin:/$HOME/go/bin
 export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$HOME/.tools
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 export PATH=$PATH:$HOME/.dotnet:$HOME/.dotnet/tools
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# If asdf, then initialize
+# . "$HOME/.asdf/asdf.sh"
 
 autoload -U +X bashcompinit && bashcompinit
